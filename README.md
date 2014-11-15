@@ -1,47 +1,51 @@
-# FPGA_FFTChangeVoice
+# IRT4Flower 
 
- [筑波大学情報学群 組み込み技術キャンパスOJT](http://inf.tsukuba.ac.jp/ET-COJT/) [ハードウェアコース](http://inf.tsukuba.ac.jp/ET-COJT/curriculum/) 4期の自由課題にて開発した、FPGA回路上で動作するボイスチェンジャー
+[国立釧路工業高等専門学校](http://www.kushiro-ct.ac.jp/) 平成23年度卒業研究にて制作した、webカメラに花の写真をかざすと、機械学習を用いて呈示されている花の品種をリア­ルタイムで識別してくれるシステム
+論文題目: **『観光用リアルタイム画像認識システムの構築』**
 
 ## Features
 
-- 音声をマイクから入力⇒変換し、リアルタイムで面白ボイスを再生する
-- 自身の声を高いピッチ、低いピッチに変更して聞く事が可能
-- 音声の変換には高速フーリエ変換(FFT)を適用した
+- 識別を行う対象は北海道に咲く花の画像とし、画像データ内の花の色や形状の特徴からその花の品種が何であるのかを
+コンピュータが自ら識別可能となることを目指した。
+- 利用者がウェブカメラに対して花の画像を提示すると、当システム内でカメラ映像に映る花の特徴をリアルタイムに抽出し、その抽出情報に対して機械学習を連動させるリアルタイム識別を可能とした。
+- これにより、利用者が手軽に自分が撮影した花の品種を特定できる環境を構築した。
 
 ## Specifications
 
-**FFTをハードウェア化するために、FFT計算行列を回路で実現する**
-![](https://raw.githubusercontent.com/shartsu/FPGA_FFTChangeVoice/master/images/s1.png)
+当システムの実装にはカメラ映像の処理から機械学習で識別を行う部分まで一貫してOpenCVライブラリを用いた。そのため、システムは第一フェーズとしてカメラ映像の処理、第二フェーズとして第一フェーズで取得した情報を元にした機械学習による識別と、大まかに二つのフェーズへと分けられる。
 
-**バタフライ演算(N=4)を用いて実装を行った**
-![](https://raw.githubusercontent.com/shartsu/FPGA_FFTChangeVoice/master/images/s2.png)
+![](https://raw.githubusercontent.com/shartsu/IRT4Flower/master/images/s1.png)
 
-**回路全体図**
-![](https://raw.githubusercontent.com/shartsu/FPGA_FFTChangeVoice/master/images/c1.png)
+### 第一フェーズ
 
-**回路内部の設計図**
-![](https://raw.githubusercontent.com/shartsu/FPGA_FFTChangeVoice/master/images/c2.png)
+まず、第一フェーズとしてカメラ映像の中からターゲットとする花の画像 (以下、入力パターン) の色、形状などの特徴を抽出する。抽出する特徴としては
 
-**ステートマシン設計図**
-![](https://raw.githubusercontent.com/shartsu/FPGA_FFTChangeVoice/master/images/c3.png)
+-  色相・彩度・明度 (HSV) に分割した花弁の色特徴 (3特徴)
+- 凸包 (Convex Hull) 内の花弁の面積値を用いた形状特徴
+-  花弁の重心から各頂点までの平均距離値を用いた距離特徴
+
+の5特徴を挙げ、識別を行うこととした。
+
+### 第二フェーズ
+
+次に、カメラ映像から抽出した各特徴から入力パターンの品種を特定する。当システムは同一ライブラリで画像処理と機械学習を連動させているため、リアルタイムでの画像認識を可能としている。
+識別を行う際に用いるアルゴリズムは、各学習パターンの中からユークリッド距離で近傍にあるk点の多数決で決定されるk最近傍決定則を用いた。
+また、識別の際に必要となる学習パターンは、予め画像から特徴を抽出して教師ラベルを付与したものを使用し、1種類の花につき最低10パターン以上用意するものとする。
 
 ## Presentation Movie
 
-**筑波大学COJT第4期ハードエンジニアリング分野成果発表会**
+- 最終発表にて公開したデモ動画
 
-* 10:31~
+[![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/shartsu/IRT4Flower/master/images/s2.jpg)](https://www.youtube.com/watch?v=_XMsg-hkFDE)
 
-[![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/shartsu/FPGA_FFTChangeVoice/master/images/mov.png)](https://www.youtube.com/watch?v=R6EtG7UaVgo#t=10m31s)
 
-## Operating environment
--  [ハードウェアコース カリキュラム](http://inf.tsukuba.ac.jp/ET-COJT/curriculum/)  を参照
+## Prize
+- 平成23年度[「情報処理学会 北海道支部長賞」](http://hokkaido.ipsj.or.jp/pukiwiki/index.php?%E6%94%AF%E9%83%A8%E9%95%B7%E8%B3%9E%E5%8F%97%E8%B3%9E%E8%80%85)を受賞し、同時に独立行政法人国立高等専門学校機構が発行する論文誌­「創造性を育む『卒業研究』集」に研究内容が掲載
 
 ## License
 - CC by 3.0
 
 ## Acknowledgments
-- [Verilog: FFT With 32K-Point Transform Length](http://www.altera.com/support/examples/verilog/ver-fft-32k.htmlt)
-- [筑波大学情報学群 組み込み技術キャンパスOJT カリキュラム](http://inf.tsukuba.ac.jp/ET-COJT/curriculum/)
-- [ハードにできることはハードでやる、それが僕らのこだわり
-僕らがリアルなものづくりを志したワケ - 日経テクノロジーオンライン](
-http://techon.nikkeibp.co.jp/article/COLUMN/20141028/385300/)
+- [『観光用リアルタイム画像認識システムの構築』研究論文サマリ](https://github.com/shartsu/IRT4Flower/raw/master/Summary.pdf)
+- [CiNii 雑誌 - 創造性を育む「卒業研究」集] (http://ci.nii.ac.jp/ncid/AA12148693)
+- [OpenCV] (http://opencv.org/)
