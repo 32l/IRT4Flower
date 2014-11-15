@@ -8,14 +8,14 @@
 #include <ml.h>
 
 #ifdef _DEBUG
-//Debugƒ‚[ƒh‚Ìê‡
+//Debugãƒ¢ãƒ¼ãƒ‰ã®å ´åˆ
 #pragma comment(lib,"cv200d.lib")
 #pragma comment(lib,"cxcore200d.lib")
 #pragma comment(lib,"cvaux200d.lib")
 #pragma comment(lib,"highgui200d.lib")
 #pragma comment(lib,"ml200d.lib")
 #else
-//Releaseƒ‚[ƒh‚Ìê‡
+//Releaseãƒ¢ãƒ¼ãƒ‰ã®å ´åˆ
 #pragma comment(lib,"cv200.lib")
 #pragma comment(lib,"cxcore200.lib")
 #pragma comment(lib,"cvaux200.lib")
@@ -49,9 +49,9 @@ static void read_file(char* file_name, int num_samples, int num_features, CvMat*
 int main(int argc, char* argv[])
 {
     char* file_name = "C:/flower0126/test.txt";
-    int num_classes = 2; //ƒNƒ‰ƒX‚Ì”
-    int num_samples = 5; //ŠwKƒpƒ^[ƒ“‚Ì”
-    int num_features = 4; //“Á’¥‚Ì”
+    int num_classes = 2; //ã‚¯ãƒ©ã‚¹ã®æ•°
+    int num_samples = 5; //å­¦ç¿’ãƒ‘ã‚¿ãƒ¼ãƒ³ã®æ•°
+    int num_features = 4; //ç‰¹å¾´ã®æ•°
     
     CvMat* train_data = cvCreateMat(num_samples, num_features, CV_32FC1);
     CvMat* responses = cvCreateMat(num_samples, 1, CV_32FC1);

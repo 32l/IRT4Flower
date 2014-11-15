@@ -1,5 +1,5 @@
-//”’F‚ğŒŸo‚·‚éƒvƒƒOƒ‰ƒ€
-/* \‘¢‘Ì‘€ì‚ÌÚ×‚Í@http://homepage3.nifty.com/mmgames/c_guide/16-02.html@*/
+//ç™½è‰²ã‚’æ¤œå‡ºã™ã‚‹ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
+/* æ§‹é€ ä½“æ“ä½œã®è©³ç´°ã¯ã€€http://homepage3.nifty.com/mmgames/c_guide/16-02.htmlã€€*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,16 +8,16 @@
 #include <cxcore.h>
 #include "Labeling.h"
 #include "LabelingW.h"
-/* Labeling.h‚É‚Â‚¢‚Äc http://oshiro.bpe.es.osaka-u.ac.jp/people/staff/imura/products/labeling */
+/* Labeling.hã«ã¤ã„ã¦â€¦ http://oshiro.bpe.es.osaka-u.ac.jp/people/staff/imura/products/labeling */
 
 #ifdef _DEBUG
-//Debugƒ‚[ƒh‚Ìê‡
+//Debugãƒ¢ãƒ¼ãƒ‰ã®å ´åˆ
 #pragma comment(lib,"cv200d.lib")
 #pragma comment(lib,"cxcore200d.lib")
 #pragma comment(lib,"cvaux200d.lib")
 #pragma comment(lib,"highgui200d.lib")
 #else
-//Releaseƒ‚[ƒh‚Ìê‡
+//Releaseãƒ¢ãƒ¼ãƒ‰ã®å ´åˆ
 #pragma comment(lib,"cv200.lib")
 #pragma comment(lib,"cxcore200.lib")
 #pragma comment(lib,"cvaux200.lib")
@@ -26,11 +26,11 @@
 
 #define ITERATIONS 2
 
-//ƒLƒƒƒvƒ`ƒƒ‰æ‘œ—pIplImage
+//ã‚­ãƒ£ãƒ—ãƒãƒ£ç”»åƒç”¨IplImage
 IplImage *img = NULL;
 IplImage *imgResult, *imgH, *imgS, *imgV;
 
-//F‚Ì•½‹Ï’l‚ğŠi”[‚·‚é\‘¢‘Ì
+//è‰²ã®å¹³å‡å€¤ã‚’æ ¼ç´ã™ã‚‹æ§‹é€ ä½“
 typedef struct{
 	int h;
 	int s;
@@ -43,7 +43,7 @@ typedef struct{
 	double d_ratio;
 }Ratio;
 
-//‰æ‘œ‚Ì–{‘Ì‚âî•ñ‚ğŠi”[‚·‚é\‘¢‘Ì
+//ç”»åƒã®æœ¬ä½“ã‚„æƒ…å ±ã‚’æ ¼ç´ã™ã‚‹æ§‹é€ ä½“
 typedef struct{
 	IplImage *bit;
 	IplImage *convex;
@@ -56,12 +56,12 @@ typedef struct{
 }Para;
 
 //
-//  ‰Ô—Ìˆæ‚ğ•`‰æ‚µARGB’l‚ª‹ß‚¢•”•ª‚à‰Ô—Ìˆæ‚É‰Á‚¦‚é
+//  èŠ±é ˜åŸŸã‚’æç”»ã—ã€RGBå€¤ãŒè¿‘ã„éƒ¨åˆ†ã‚‚èŠ±é ˜åŸŸã«åŠ ãˆã‚‹
 //
-//	ˆø”:
-//		skinImage       : ‰Ô‚ÌF’Šo‰æ‘œ—pIplImage
-//		label           : ƒ‰ƒxƒŠƒ“ƒO‚µ‚½Œ‹‰Ê
-//		convexHullImage : ConvexHull‰æ‘œ—pIplImage
+//	å¼•æ•°:
+//		skinImage       : èŠ±ã®è‰²æŠ½å‡ºç”»åƒç”¨IplImage
+//		label           : ãƒ©ãƒ™ãƒªãƒ³ã‚°ã—ãŸçµæœ
+//		convexHullImage : ConvexHullç”»åƒç”¨IplImage
 //
 void drawMaxArea(IplImage *bitImage, IplImage *label, IplImage *convexHullImage ) {
 	unsigned char char_h, char_s, char_v;
@@ -91,45 +91,45 @@ void drawMaxArea(IplImage *bitImage, IplImage *label, IplImage *convexHullImage 
 				ex_char_v_y = (unsigned char)imgV->imageDataOrigin[x+(y-1)*imgV->width];
 
 
-				//‚»‚ê‚¼‚ê•Ï”‚ğì¬
-				//hsv–{‘Ì
+				//ãã‚Œãã‚Œå¤‰æ•°ã‚’ä½œæˆ
+				//hsvæœ¬ä½“
 				h = char_h; s = char_s; v = char_v;
-				//Šehsv‚Ì‘O‚Ìx‚ÌF
+				//å„hsvã®å‰ã®xã®è‰²
 				ex_h_x = ex_char_h_x; ex_s_x = ex_char_s_x; ex_v_x = ex_char_v_x;
-				//Šehsv‚Ì‘O‚Ìy‚ÌF
+				//å„hsvã®å‰ã®yã®è‰²
 				ex_h_y = ex_char_h_y; ex_s_y = ex_char_s_y; ex_v_y = ex_char_v_y;
-				//‘O‚Ìx‚ÌF‚Æ‚Ì·ˆÙ@difference
+				//å‰ã®xã®è‰²ã¨ã®å·®ç•°ã€€difference
 				d_h_x = h - ex_h_x; d_s_x = s - ex_s_x; d_v_x = v - ex_v_x;
-				//‘O‚Ìy‚ÌF‚Æ‚Ì·ˆÙ
+				//å‰ã®yã®è‰²ã¨ã®å·®ç•°
 				d_h_y = h - ex_h_y; d_s_y = s - ex_s_y; d_v_y = v - ex_v_y;
 
 
 				if( cvGetReal2D( label, y, x ) == 1) {
-					//	Å‘å—Ìˆæ‚¾‚Á‚½ê‡ –ÊÏ‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚µAconvex‚ğ”’F‚ÉƒZƒbƒg
+					//	æœ€å¤§é ˜åŸŸã ã£ãŸå ´åˆ é¢ç©ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã—ã€convexã‚’ç™½è‰²ã«ã‚»ãƒƒãƒˆ
 					cvSet2D( convexHullImage, y, x, CV_RGB( 255, 255, 255 ) );
-					cvSetReal2D(label, y, x, 1);			//ƒ‰ƒxƒ‹‚ğ•t‰Á‚·‚é(1‚ªˆê”Ô‘å‚«‚¢‰æ‘œ)
+					cvSetReal2D(label, y, x, 1);			//ãƒ©ãƒ™ãƒ«ã‚’ä»˜åŠ ã™ã‚‹(1ãŒä¸€ç•ªå¤§ãã„ç”»åƒ)
 					cvSetReal2D(bitImage, y, x, 255);
 				} else {
-					//‚Å‚È‚©‚Á‚½ê‡A•‚ÉƒZƒbƒg
+					//ã§ãªã‹ã£ãŸå ´åˆã€é»’ã«ã‚»ãƒƒãƒˆ
 					cvSet2D( convexHullImage, y, x, CV_RGB( 0, 0, 0 ) );
 					cvSetReal2D( bitImage, y, x, 0 );
-					//‚à‚µ‹ßÚ‚ÌRGB‚ª‹ß‚¢’l‚Å‚ ‚ê‚ÎA•â³
-					//ƒfƒtƒHƒ‹ƒg‚Ì’l@abs(d_h_x) <= 2  && abs(d_s_x) <= 13 && abs(d_v_x) <= 26
+					//ã‚‚ã—è¿‘æ¥ã®RGBãŒè¿‘ã„å€¤ã§ã‚ã‚Œã°ã€è£œæ­£
+					//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å€¤ã€€abs(d_h_x) <= 2  && abs(d_s_x) <= 13 && abs(d_v_x) <= 26
 					if(cvGetReal2D( label, y, x-1 ) == 1 && abs(d_h_x) <= 2 && abs(d_s_x) <= 13 && abs(d_v_x) <= 26) {
-						cvSet2D( convexHullImage, y, x, CV_RGB( 255, 0, 0));		//convex‚ğÔ‚Å•`‰æ
-						cvSetReal2D(label, y, x, 1);			//ƒ‰ƒxƒ‹‚ğ•t‰Á‚·‚é(1‚ªˆê”Ô‘å‚«‚¢‰æ‘œ)
-						cvSetReal2D(bitImage, y, x, 255);		//bitImage‚É255‚ğ•t‰Á‚µ‚Ä”’‚ğ•`‚­
+						cvSet2D( convexHullImage, y, x, CV_RGB( 255, 0, 0));		//convexã‚’èµ¤ã§æç”»
+						cvSetReal2D(label, y, x, 1);			//ãƒ©ãƒ™ãƒ«ã‚’ä»˜åŠ ã™ã‚‹(1ãŒä¸€ç•ªå¤§ãã„ç”»åƒ)
+						cvSetReal2D(bitImage, y, x, 255);		//bitImageã«255ã‚’ä»˜åŠ ã—ã¦ç™½ã‚’æã
 
-						//y•ûŒü‚ğˆê’U‚¨‹x‚İ@•œŠˆ‚³‚¹‚é‚Æ‚«‚Í­‚µ‹ß—’l‚ğ‰º‚°‚éH
+						//yæ–¹å‘ã‚’ä¸€æ—¦ãŠä¼‘ã¿ã€€å¾©æ´»ã•ã›ã‚‹ã¨ãã¯å°‘ã—è¿‘ä¼¼å€¤ã‚’ä¸‹ã’ã‚‹ï¼Ÿ
 						//} else if(cvGetReal2D( label, y-1, x ) == 1 && abs(d_h_y) < 2 && abs(d_s_y) < 6.75 && abs(d_v_y) < 12.5) {
-						//	cvSet2D( convexHullImage, y, x, CV_RGB( 0, 255, 0 ));		//convex‚ğ—Î‚Å•`‰æ
-						//	cvSetReal2D(label, y, x, 1);			//ƒ‰ƒxƒ‹‚ğ•t‰Á‚·‚é(1‚ªˆê”Ô‘å‚«‚¢‰æ‘œ)
-						//	cvSetReal2D(bitImage, y, x, 255);		//bitImage‚É255‚ğ•t‰Á‚µ‚Ä”’‚ğ•`‚­
+						//	cvSet2D( convexHullImage, y, x, CV_RGB( 0, 255, 0 ));		//convexã‚’ç·‘ã§æç”»
+						//	cvSetReal2D(label, y, x, 1);			//ãƒ©ãƒ™ãƒ«ã‚’ä»˜åŠ ã™ã‚‹(1ãŒä¸€ç•ªå¤§ãã„ç”»åƒ)
+						//	cvSetReal2D(bitImage, y, x, 255);		//bitImageã«255ã‚’ä»˜åŠ ã—ã¦ç™½ã‚’æã
 
 					//} else if(cvGetReal2D( label, y, x-1 ) == 1 && s <= 51 && abs(d_s_x) <= 13 && abs(d_v_x) <= 26 ) {
-					//	cvSet2D( convexHullImage, y, x, CV_RGB( 0, 0, 255 ));		//convex‚ğÂ‚Å•`‰æ
-					//	cvSetReal2D(label, y, x, 1);			//ƒ‰ƒxƒ‹‚ğ•t‰Á‚·‚é(1‚ªˆê”Ô‘å‚«‚¢‰æ‘œ)
-					//	cvSetReal2D(bitImage, y, x, 255);		//bitImage‚É255‚ğ•t‰Á‚µ‚Ä”’‚ğ•`‚­
+					//	cvSet2D( convexHullImage, y, x, CV_RGB( 0, 0, 255 ));		//convexã‚’é’ã§æç”»
+					//	cvSetReal2D(label, y, x, 1);			//ãƒ©ãƒ™ãƒ«ã‚’ä»˜åŠ ã™ã‚‹(1ãŒä¸€ç•ªå¤§ãã„ç”»åƒ)
+					//	cvSetReal2D(bitImage, y, x, 255);		//bitImageã«255ã‚’ä»˜åŠ ã—ã¦ç™½ã‚’æã
 					}
 				}
 			}
@@ -139,12 +139,12 @@ void drawMaxArea(IplImage *bitImage, IplImage *label, IplImage *convexHullImage 
 }
 
 //
-//  F‚Ì‹ß—‚É‚æ‚é‰Ô—Ìˆæ‚ğƒJƒEƒ“ƒg‚·‚éÛ‚ÉŒëƒJƒEƒ“ƒg‚µ‚Ä‚¢‚é•”•ª‚ğC³‚·‚é
+//  è‰²ã®è¿‘ä¼¼ã«ã‚ˆã‚‹èŠ±é ˜åŸŸã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹éš›ã«èª¤ã‚«ã‚¦ãƒ³ãƒˆã—ã¦ã„ã‚‹éƒ¨åˆ†ã‚’ä¿®æ­£ã™ã‚‹
 //
-//	ˆø”:
-//		skinImage       : ‰Ô‚ÌF’Šo‰æ‘œ—pIplImage
-//		label           : ƒ‰ƒxƒŠƒ“ƒO‚µ‚½Œ‹‰Ê
-//		convexHullImage : ConvexHull‰æ‘œ—pIplImage
+//	å¼•æ•°:
+//		skinImage       : èŠ±ã®è‰²æŠ½å‡ºç”»åƒç”¨IplImage
+//		label           : ãƒ©ãƒ™ãƒªãƒ³ã‚°ã—ãŸçµæœ
+//		convexHullImage : ConvexHullç”»åƒç”¨IplImage
 //
 void reviseMaxArea(IplImage *bitImage, IplImage *label, IplImage *convexHullImage ) {
 
@@ -154,58 +154,58 @@ void reviseMaxArea(IplImage *bitImage, IplImage *label, IplImage *convexHullImag
 	int mem = -1;
 	int ybuf = bitImage->height;
 
-	//for•¶ŠJn 
+	//foræ–‡é–‹å§‹ 
 	for( int y = 0; y < bitImage->height; y++ ) {
 		for(int x = 0; x < bitImage->width; x++ ) {
-			//‚à‚µx²•ûŒü‚ÉÔF‚Ìü(x‚Ì•â³)‚ªŒƒ‚µ‚­˜A‘±‚µ‚Ä‚¢‚½‚çƒJƒEƒ“ƒg
+			//ã‚‚ã—xè»¸æ–¹å‘ã«èµ¤è‰²ã®ç·š(xã®è£œæ­£)ãŒæ¿€ã—ãé€£ç¶šã—ã¦ã„ãŸã‚‰ã‚«ã‚¦ãƒ³ãƒˆ
 			color = cvGet2D(convexHullImage, y, x);
 			if(color.val[0] == 0.0 && color.val[1] == 0.0 && color.val[2] == 255.0) { //BGR
 				count++;
 				sequence++;
 			} else {
-				//ƒV[ƒPƒ“ƒX‚ÍÄ“xƒŠƒZƒbƒg
+				//ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ã¯å†åº¦ãƒªã‚»ãƒƒãƒˆ
 				sequence = 0;
 			}
 
 			if(count > bitImage->width/5) {
-				//‚à‚µÔ‚Ì‡Œv”‚ª‰æ‘œ‚Ì1/5‚ğ“Ë”j‚µ‚Ä‚¢‚½‚ç•Ï”same‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚µŸ‚Ìs‚Ö
+				//ã‚‚ã—èµ¤ã®åˆè¨ˆæ•°ãŒç”»åƒã®1/5ã‚’çªç ´ã—ã¦ã„ãŸã‚‰å¤‰æ•°sameã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã—æ¬¡ã®è¡Œã¸
 				if(ybuf > y) ybuf = y;
 				same++;
 				y++;
 			} else if(sequence > bitImage->width/8) {
-				//‚à‚µÔ‚Ì’·‚³‚ª‰æ‘œ‚Ì1/8˜A‘±‚µ‚Ä‚¢‚½‚ç‚»‚Ìê‚ÅC³‚·‚é
+				//ã‚‚ã—èµ¤ã®é•·ã•ãŒç”»åƒã®1/8é€£ç¶šã—ã¦ã„ãŸã‚‰ãã®å ´ã§ä¿®æ­£ã™ã‚‹
 				for(int m = 0; m < bitImage->width; m++){
 					color = cvGet2D(convexHullImage, y, m);
-					//convex‚ÌF‚ªÔ‚È‚ç‚Î
+					//convexã®è‰²ãŒèµ¤ãªã‚‰ã°
 					if(color.val[0] != 255.0 || color.val[1] != 255.0 || color.val[2] != 255.0) {
-						//convex‚Ì”’‚¢•”•ª (== •â³‚ğ‚©‚¯‚é‘O‚Ì‚à‚Æ‚à‚Æ‚Ì‰Ô‚Ì•”•ª)@ˆÈŠO‚ğ‘S‚Ä“h‚è‚Â‚Ô‚·
+						//convexã®ç™½ã„éƒ¨åˆ† (== è£œæ­£ã‚’ã‹ã‘ã‚‹å‰ã®ã‚‚ã¨ã‚‚ã¨ã®èŠ±ã®éƒ¨åˆ†)ã€€ä»¥å¤–ã‚’å…¨ã¦å¡—ã‚Šã¤ã¶ã™
 						cvSetReal2D( bitImage, y, m, 0 );
 						cvSet2D( convexHullImage, y, m, CV_RGB( 0, 0, 0 ) );
-						cvSetReal2D(label, y, m, 0);			//ƒ‰ƒxƒ‹‚ğ•t‰Á‚·‚é(1‚ªˆê”Ô‘å‚«‚¢‰æ‘œ)
+						cvSetReal2D(label, y, m, 0);			//ãƒ©ãƒ™ãƒ«ã‚’ä»˜åŠ ã™ã‚‹(1ãŒä¸€ç•ªå¤§ãã„ç”»åƒ)
 					}
-				} //for•¶mI—¹
+				} //foræ–‡mçµ‚äº†
 				y++;
-			} //if•¶I—¹
-		}//for•¶xI—¹
+			} //ifæ–‡çµ‚äº†
+		}//foræ–‡xçµ‚äº†
 		count = 0;
 		sequence = 0;
-	} //for•¶yI—¹
+	} //foræ–‡yçµ‚äº†
 
 
-	//‚à‚µsame‚ª10ˆÈã‚ ‚ê‚ÎA‘å‚«‚·‚¬‚é‚½‚ß‘å•C³‚ğs‚¤(ƒŠƒZƒbƒg‚Å‚à‚¢‚¢‚Ì‚Å‚ÍH)
+	//ã‚‚ã—sameãŒ10ä»¥ä¸Šã‚ã‚Œã°ã€å¤§ãã™ãã‚‹ãŸã‚å¤§å¹…ä¿®æ­£ã‚’è¡Œã†(ãƒªã‚»ãƒƒãƒˆã§ã‚‚ã„ã„ã®ã§ã¯ï¼Ÿ)
 	if(same > 10) {
-		printf("x‚ÌC³‚ª˜A‘±‚µ‚·(same=%d)‚¬‚½‚½‚ßAy=%d‚©‚ç‘å•C³\n", same, ybuf);
-		//ƒGƒ‰[•”•ª‚ğÁ‹‚µ‚ÄI—¹
+		printf("xã®ä¿®æ­£ãŒé€£ç¶šã—ã™(same=%d)ããŸãŸã‚ã€y=%dã‹ã‚‰å¤§å¹…ä¿®æ­£\n", same, ybuf);
+		//ã‚¨ãƒ©ãƒ¼éƒ¨åˆ†ã‚’æ¶ˆå»ã—ã¦çµ‚äº†
 		for( int y = ybuf -1 ; y < bitImage->height ; y++ ) {
 			for(int x = 0; x < bitImage->width ; x++ ) {
 				color = cvGet2D(convexHullImage, y, x);
-				//‚Ç‚ê‚©ˆê‚Â‚Å‚à255‚¶‚á‚È‚¢‚à‚Ì‚ª‚ ‚ê‚Îc (== 255 255 255 ‚Â‚Ü‚è”’‚Å‚È‚¯‚ê‚Î)
+				//ã©ã‚Œã‹ä¸€ã¤ã§ã‚‚255ã˜ã‚ƒãªã„ã‚‚ã®ãŒã‚ã‚Œã°â€¦ (== 255 255 255 ã¤ã¾ã‚Šç™½ã§ãªã‘ã‚Œã°)
 				if(color.val[0] != 255.0 || color.val[1] != 255.0 || color.val[2] != 255.0) {
-					//convex‚Ì”’‚¢•”•ª (== •â³‚ğ‚©‚¯‚é‘O‚Ì‚à‚Æ‚à‚Æ‚Ì‰Ô‚Ì•”•ª)@ˆÈŠO‚ğ‘S‚Ä“h‚è‚Â‚Ô‚·
+					//convexã®ç™½ã„éƒ¨åˆ† (== è£œæ­£ã‚’ã‹ã‘ã‚‹å‰ã®ã‚‚ã¨ã‚‚ã¨ã®èŠ±ã®éƒ¨åˆ†)ã€€ä»¥å¤–ã‚’å…¨ã¦å¡—ã‚Šã¤ã¶ã™
 					//printf("%lf %lf %lf\n", color.val[0], color.val[1], color.val[2]);
 					cvSetReal2D( bitImage, y, x, 0 );
 					cvSet2D( convexHullImage, y, x, CV_RGB( 0, 0, 0 ) );
-					cvSetReal2D(label, y, x, 0);			//ƒ‰ƒxƒ‹‚ğ•t‰Á‚·‚é(1‚ªˆê”Ô‘å‚«‚¢‰æ‘œ)
+					cvSetReal2D(label, y, x, 0);			//ãƒ©ãƒ™ãƒ«ã‚’ä»˜åŠ ã™ã‚‹(1ãŒä¸€ç•ªå¤§ãã„ç”»åƒ)
 				}
 			}
 		}
@@ -216,18 +216,18 @@ void reviseMaxArea(IplImage *bitImage, IplImage *label, IplImage *convexHullImag
 
 
 //
-//	‰Ô‚ÌÅ‘å—Ìˆæ‚Ì’Šo(label==1)‚ğs‚¢A–ÊÏ‚ğƒJƒEƒ“ƒg‚·‚é
+//	èŠ±ã®æœ€å¤§é ˜åŸŸã®æŠ½å‡º(label==1)ã‚’è¡Œã„ã€é¢ç©ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹
 //
-//	ˆø”:
-//		skinImage       : ‰Ô‚ÌF’Šo‰æ‘œ—pIplImage
-//		label           : ƒ‰ƒxƒŠƒ“ƒO‚µ‚½Œ‹‰Ê
+//	å¼•æ•°:
+//		skinImage       : èŠ±ã®è‰²æŠ½å‡ºç”»åƒç”¨IplImage
+//		label           : ãƒ©ãƒ™ãƒªãƒ³ã‚°ã—ãŸçµæœ
 //
-//	–ß‚è’l:
-//		‰Ô—Ìˆæ‚Ì–ÊÏ
+//	æˆ»ã‚Šå€¤:
+//		èŠ±é ˜åŸŸã®é¢ç©
 //
 int pickupMaxArea(IplImage *bitImage, IplImage *label) {
 
-	int flowerarea = 0;	//	‰Ô—Ìˆæ‚Ì–ÊÏ
+	int flowerarea = 0;	//	èŠ±é ˜åŸŸã®é¢ç©
 
 	for(int x = 0; x < bitImage->width; x++ ) {
 		for( int y = 0; y < bitImage->height; y++ ) {
@@ -242,21 +242,21 @@ int pickupMaxArea(IplImage *bitImage, IplImage *label) {
 
 
 //
-//	ConvexHull‚ğ¶¬‚·‚é
+//	ConvexHullã‚’ç”Ÿæˆã™ã‚‹
 //
-//	ˆø”:
-//		skinImage   : ”§F’Šo‰æ‘œ—pIplImage
-//		flowerarea  : ‰Ô—Ìˆæ‚Ì–ÊÏ(“_‚Ì”)
-//		flowerpoint : ‰Ô—Ìˆæ“à‚Ì“_‚ÌÀ•W”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-//		hull        : ConvexHull‚Ì’¸“_‚Ìhandpoint‚É‚¨‚¯‚éindex”Ô†‚Ö‚Ìƒ|ƒCƒ“ƒ^
-//		pointMatrix : ‰Ô—Ìˆæ—ps—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-//		hullMatrix  : ConvexHull—ps—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+//	å¼•æ•°:
+//		skinImage   : è‚Œè‰²æŠ½å‡ºç”»åƒç”¨IplImage
+//		flowerarea  : èŠ±é ˜åŸŸã®é¢ç©(ç‚¹ã®æ•°)
+//		flowerpoint : èŠ±é ˜åŸŸå†…ã®ç‚¹ã®åº§æ¨™é…åˆ—ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+//		hull        : ConvexHullã®é ‚ç‚¹ã®handpointã«ãŠã‘ã‚‹indexç•ªå·ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+//		pointMatrix : èŠ±é ˜åŸŸç”¨è¡Œåˆ—ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+//		hullMatrix  : ConvexHullç”¨è¡Œåˆ—ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 //
 void createConvexHull(IplImage *bitImage, IplImage *label,int flowerarea, CvPoint **flowerpoint, int **hull,
 					  CvMat *pointMatrix, CvMat *hullMatrix ) {
 						  int i=0;
 
-						  //	ConvexHull‚ğŒvZ‚·‚é‚½‚ß‚É•K—v‚Ès—ñ‚ğ¶¬‚·‚é
+						  //	ConvexHullã‚’è¨ˆç®—ã™ã‚‹ãŸã‚ã«å¿…è¦ãªè¡Œåˆ—ã‚’ç”Ÿæˆã™ã‚‹
 						  *flowerpoint=( CvPoint * )malloc( sizeof( CvPoint ) * flowerarea);
 						  *hull = ( int * )malloc( sizeof( int ) * flowerarea );
 						  *pointMatrix = cvMat( 1, flowerarea, CV_32SC2, *flowerpoint );
@@ -272,20 +272,20 @@ void createConvexHull(IplImage *bitImage, IplImage *label,int flowerarea, CvPoin
 							  } 
 						  }
 
-						  //	ConvexHull‚ğ¶¬‚·‚é
+						  //	ConvexHullã‚’ç”Ÿæˆã™ã‚‹
 						  cvConvexHull2( pointMatrix, hullMatrix, CV_CLOCKWISE, 0 );
 
 }
 
 
 //
-//	ConvexHull‚ğ•`‰æ‚·‚é
+//	ConvexHullã‚’æç”»ã™ã‚‹
 //
-//	ˆø”:
-//		convexHullImage : ConvexHull‰æ‘œ—pIplImage
-//		flowerpoint     : ‰Ô—Ìˆæ“à‚Ì“_‚ÌÀ•W”z—ñ
-//		hull            : ConvexHull‚Ì’¸“_‚Ìhandpoint‚É‚¨‚¯‚éindex”Ô†
-//		hullcount       : ConvexHull‚Ì’¸“_‚Ì”
+//	å¼•æ•°:
+//		convexHullImage : ConvexHullç”»åƒç”¨IplImage
+//		flowerpoint     : èŠ±é ˜åŸŸå†…ã®ç‚¹ã®åº§æ¨™é…åˆ—
+//		hull            : ConvexHullã®é ‚ç‚¹ã®handpointã«ãŠã‘ã‚‹indexç•ªå·
+//		hullcount       : ConvexHullã®é ‚ç‚¹ã®æ•°
 //
 void drawConvexHull(IplImage *convexHullImage, CvPoint *flowerpoint, int *hull, int hullcount ) {
 	CvPoint pt0 = flowerpoint[hull[hullcount-1]];
@@ -298,27 +298,27 @@ void drawConvexHull(IplImage *convexHullImage, CvPoint *flowerpoint, int *hull, 
 }
 
 //
-//	ConvexHull“à‚Ì–ÊÏ‚ğ‹‚ß‚é
+//	ConvexHullå†…ã®é¢ç©ã‚’æ±‚ã‚ã‚‹
 //
-//	ˆø”:
-//		convexHullImage : ConvexHull‰æ‘œ—pIplImage
-//		flowerpoint       : ‰Ô—Ìˆæ“à‚Ì“_‚ÌÀ•W”z—ñ
-//		hull            : ConvexHull‚Ì’¸“_‚Ìhandpoint‚É‚¨‚¯‚éindex”Ô†
-//		hullcount       : ConvexHull‚Ì’¸“_‚Ì”@@
+//	å¼•æ•°:
+//		convexHullImage : ConvexHullç”»åƒç”¨IplImage
+//		flowerpoint       : èŠ±é ˜åŸŸå†…ã®ç‚¹ã®åº§æ¨™é…åˆ—
+//		hull            : ConvexHullã®é ‚ç‚¹ã®handpointã«ãŠã‘ã‚‹indexç•ªå·
+//		hullcount       : ConvexHullã®é ‚ç‚¹ã®æ•°ã€€ã€€
 //
-//	–ß‚è’l:
-//		ConvexHull“à‚Ì–ÊÏ
+//	æˆ»ã‚Šå€¤:
+//		ConvexHullå†…ã®é¢ç©
 //
 int calcConvexHullArea( IplImage *convexHullImage, CvPoint *flowerpoint, int *hull, int hullcount ) {
 
-	//	ConvexHull‚Ì’¸“_‚©‚ç‚È‚és—ñ‚ğ¶¬
+	//	ConvexHullã®é ‚ç‚¹ã‹ã‚‰ãªã‚‹è¡Œåˆ—ã‚’ç”Ÿæˆ
 	CvPoint *hullpoint = ( CvPoint * )malloc( sizeof( CvPoint ) * hullcount );
 	CvMat hMatrix = cvMat( 1, hullcount, CV_32SC2, hullpoint );
 	for( int i = 0; i < hullcount; i++ ) {
 		hullpoint[i]=flowerpoint[hull[i]];
 	}
 
-	//	ConvexHull“à‚Ì“_‚Ì”‚ğ”‚¦‚é
+	//	ConvexHullå†…ã®ç‚¹ã®æ•°ã‚’æ•°ãˆã‚‹
 	int hullarea = 0;
 	for( int x = 0; x < convexHullImage->width; x++ ) {
 		for( int y = 0;y < convexHullImage->height; y++ ) {
@@ -332,7 +332,7 @@ int calcConvexHullArea( IplImage *convexHullImage, CvPoint *flowerpoint, int *hu
 	return hullarea;
 }
 
-//2“_ŠÔ‚Ì‹——£‚ğ‹‚ß‚é
+//2ç‚¹é–“ã®è·é›¢ã‚’æ±‚ã‚ã‚‹
 int Distance(CvPoint pt1, CvPoint pt2){
 	int dis;
 
@@ -342,13 +342,13 @@ int Distance(CvPoint pt1, CvPoint pt2){
 }
 
 //
-//‰æ‘œ‚ÌdS‚ğ‹‚ß‚éŠÖ”
+//ç”»åƒã®é‡å¿ƒã‚’æ±‚ã‚ã‚‹é–¢æ•°
 //
-//	ˆø”:
-//		para		    : ‰æ‘œ‚Ì\‘¢‘Ì
-//		flowerpoint     : ‰Ô—Ìˆæ“à‚Ì“_‚ÌÀ•W”z—ñ
-//		hull            : ConvexHull‚Ì’¸“_‚Ìhandpoint‚É‚¨‚¯‚éindex”Ô†
-//		hullcount       : ConvexHull‚Ì’¸“_‚Ì”@@
+//	å¼•æ•°:
+//		para		    : ç”»åƒã®æ§‹é€ ä½“
+//		flowerpoint     : èŠ±é ˜åŸŸå†…ã®ç‚¹ã®åº§æ¨™é…åˆ—
+//		hull            : ConvexHullã®é ‚ç‚¹ã®handpointã«ãŠã‘ã‚‹indexç•ªå·
+//		hullcount       : ConvexHullã®é ‚ç‚¹ã®æ•°ã€€ã€€
 //
 void Gravity(IplImage *bitImage, IplImage *convexHullImage, CvPoint *flowerpoint, int *hull, int hullcount, Ratio *ratiobox ) {
 
@@ -372,7 +372,7 @@ void Gravity(IplImage *bitImage, IplImage *convexHullImage, CvPoint *flowerpoint
 
 	for( int i = 0; i < hullcount; i++ ) {
 		if(i == 0) {
-			//1–{–Ú‚Ì‚İÔcŠî€ü‚Æ‚·‚é
+			//1æœ¬ç›®ã®ã¿èµ¤â€¦åŸºæº–ç·šã¨ã™ã‚‹
 			dis_def = Distance(ptxy, pt0);
 			cvLine( convexHullImage, ptxy, pt0, CV_RGB(255, 0, 0));
 		} else {
@@ -386,17 +386,17 @@ void Gravity(IplImage *bitImage, IplImage *convexHullImage, CvPoint *flowerpoint
 		pt0 = pt;
 	}
 
-	//Še‹——£‚Ì”ä—¦‚Ì•½‹Ï’l‚ğo‚·(Œ±‰^—p’†)
+	//å„è·é›¢ã®æ¯”ç‡ã®å¹³å‡å€¤ã‚’å‡ºã™(è©¦é¨“é‹ç”¨ä¸­)
 	ratiobox->d_ratio = sum / (double)(hullcount-1);
 }
 
 //
-//	ƒ‰ƒxƒŠƒ“ƒO•”•ª‚ÌF‚Ì•½‹Ï’l‚ğ‹‚ß‚é
+//	ãƒ©ãƒ™ãƒªãƒ³ã‚°éƒ¨åˆ†ã®è‰²ã®å¹³å‡å€¤ã‚’æ±‚ã‚ã‚‹
 //
-//	ˆø”:
-//		skinImage       : ‰Ô‚ÌF’Šo‰æ‘œ—pIplImage
-//		para			: ‰æ‘œ‚Ì\‘¢‘Ì
-//		aveColor		: ‰Ô‚ÌF‚Ì•½‹Ï’l‚ğŠi”[‚·‚é\‘¢‘Ì
+//	å¼•æ•°:
+//		skinImage       : èŠ±ã®è‰²æŠ½å‡ºç”»åƒç”¨IplImage
+//		para			: ç”»åƒã®æ§‹é€ ä½“
+//		aveColor		: èŠ±ã®è‰²ã®å¹³å‡å€¤ã‚’æ ¼ç´ã™ã‚‹æ§‹é€ ä½“
 //
 void averageColor(Para *para, AveColor *aveColor) {
 
@@ -407,7 +407,7 @@ void averageColor(Para *para, AveColor *aveColor) {
 	for(int x = 0; x < para->bit->width; x++ ) {
 		for( int y=0; y < para->bit->height; y++ ) {
 			if( cvGetReal2D( para->label, y, x ) == 1) {
-				//	Å‘å—Ìˆæ‚¾‚Á‚½ê‡ c convex‚Å”’‚¾‚Á‚½ê‡
+				//	æœ€å¤§é ˜åŸŸã ã£ãŸå ´åˆ â€¦ convexã§ç™½ã ã£ãŸå ´åˆ
 				char_h = (unsigned char)imgH->imageDataOrigin[x+y*imgH->width];
 				char_s = (unsigned char)imgS->imageDataOrigin[x+y*imgS->width];
 				char_v = (unsigned char)imgV->imageDataOrigin[x+y*imgV->width];
@@ -423,44 +423,44 @@ void averageColor(Para *para, AveColor *aveColor) {
 			}
 		}		
 	}
-	aveColor->h = h_sum/in;	//Œã‚ë‚Ì”š‚Í³‹K‰»
+	aveColor->h = h_sum/in;	//å¾Œã‚ã®æ•°å­—ã¯æ­£è¦åŒ–
 	aveColor->s = s_sum/in;
 	aveColor->v = v_sum/in;
 	//printf("Average H: %d(/180) S: %d(/100) V: %d(/100) \n", aveColor->h * 2, (int)aveColor->s * 100 / 255, (int)aveColor->v * 100 / 255);
 }
 
 //
-//	Œ‡‘¹—Ìˆæ‚ğ•âŠÔ‚·‚é
+//	æ¬ æé ˜åŸŸã‚’è£œé–“ã™ã‚‹
 //
-//	ˆø”:
-//		skinImage : ”§F’Šo‰æ‘œ—pIplImage
-//		temp      : ˆê•Û‘¶—pIplImage
+//	å¼•æ•°:
+//		skinImage : è‚Œè‰²æŠ½å‡ºç”»åƒç”¨IplImage
+//		temp      : ä¸€æ™‚ä¿å­˜ç”¨IplImage
 //
 void interpolate( IplImage *skinImage, IplImage *temp, int num) {
-	//–c’£‚ğnum‰ñs‚¤
+	//è†¨å¼µã‚’numå›è¡Œã†
 	cvDilate( skinImage, temp, NULL, num );
 
-	//ûk‚ğnum‰ñs‚¤
+	//åç¸®ã‚’numå›è¡Œã†
 	cvErode( temp, skinImage, NULL, num );
 }
 
 
 //--------------------------------------------------------------- 
-//yŠÖ”–¼@zFcv_ColorExtraction 
-//yˆ—ŠT—vzFF’Šo 
-//yˆø”@@zFsrc_img        = “ü—Í‰æ‘œ(8bit3ch) 
-//@@@@@@Fdst_img        = o—Í2’l‰æ‘œ(8bit1ch) 
-//@@@@@@Fmask_img        = o—Íƒ}ƒXƒN‰æ‘œ(8bit3ch) 
-//@@@@@@Fcode        = F‹óŠÔ‚Ìw’èiCV_BGR2HSV,CV_BGR2Lab‚È‚Çj
-//@@@@@@Fch1_lower    = ch1‚Ì‚µ‚«‚¢’l(¬)
-//@@@@@@Fch1_upper    = ch1‚Ì‚µ‚«‚¢’l(‘å)
-//@@@@@@Fch2_lower    = ch2‚Ì‚µ‚«‚¢’l(¬)
-//@@@@@@Fch2_upper    = ch2‚Ì‚µ‚«‚¢’l(‘å)
-//@@@@@@Fch3_lower    = ch3‚Ì‚µ‚«‚¢’l(¬)
-//@@@@@@Fch3_upper    = ch3‚Ì‚µ‚«‚¢’l(‘å)
-//y–ß‚è’l@zF‚È‚µ 
-//y”õl@@zFlower <= upper‚Ìê‡AlowerˆÈãupperˆÈ‰º‚Ì”ÍˆÍ‚ğ’ŠoA
-//@@@@@@Flower >  upper‚Ìê‡AupperˆÈ‰ºlowerˆÈã‚Ì”ÍˆÍ‚ğ’Šo‚µ‚Ü‚·B
+//ã€é–¢æ•°åã€€ã€‘ï¼šcv_ColorExtraction 
+//ã€å‡¦ç†æ¦‚è¦ã€‘ï¼šè‰²æŠ½å‡º 
+//ã€å¼•æ•°ã€€ã€€ã€‘ï¼šsrc_img        = å…¥åŠ›ç”»åƒ(8bit3ch) 
+//ã€€ã€€ã€€ã€€ã€€ã€€ï¼šdst_img        = å‡ºåŠ›2å€¤ç”»åƒ(8bit1ch) 
+//ã€€ã€€ã€€ã€€ã€€ã€€ï¼šmask_img        = å‡ºåŠ›ãƒã‚¹ã‚¯ç”»åƒ(8bit3ch) 
+//ã€€ã€€ã€€ã€€ã€€ã€€ï¼šcode        = è‰²ç©ºé–“ã®æŒ‡å®šï¼ˆCV_BGR2HSV,CV_BGR2Labãªã©ï¼‰
+//ã€€ã€€ã€€ã€€ã€€ã€€ï¼šch1_lower    = ch1ã®ã—ãã„å€¤(å°)
+//ã€€ã€€ã€€ã€€ã€€ã€€ï¼šch1_upper    = ch1ã®ã—ãã„å€¤(å¤§)
+//ã€€ã€€ã€€ã€€ã€€ã€€ï¼šch2_lower    = ch2ã®ã—ãã„å€¤(å°)
+//ã€€ã€€ã€€ã€€ã€€ã€€ï¼šch2_upper    = ch2ã®ã—ãã„å€¤(å¤§)
+//ã€€ã€€ã€€ã€€ã€€ã€€ï¼šch3_lower    = ch3ã®ã—ãã„å€¤(å°)
+//ã€€ã€€ã€€ã€€ã€€ã€€ï¼šch3_upper    = ch3ã®ã—ãã„å€¤(å¤§)
+//ã€æˆ»ã‚Šå€¤ã€€ã€‘ï¼šãªã— 
+//ã€å‚™è€ƒã€€ã€€ã€‘ï¼šlower <= upperã®å ´åˆã€lowerä»¥ä¸Šupperä»¥ä¸‹ã®ç¯„å›²ã‚’æŠ½å‡ºã€
+//ã€€ã€€ã€€ã€€ã€€ã€€ï¼šlower >  upperã®å ´åˆã€upperä»¥ä¸‹lowerä»¥ä¸Šã®ç¯„å›²ã‚’æŠ½å‡ºã—ã¾ã™ã€‚
 //---------------------------------------------------------------
 void cv_ColorExtraction(IplImage* src_img, IplImage* dst_img, IplImage* mask_img,
 						int code,
@@ -480,11 +480,11 @@ void cv_ColorExtraction(IplImage* src_img, IplImage* dst_img, IplImage* mask_img
 
 							CvMat *lut;   
 
-							//code‚ÉŠî‚Ã‚¢‚½ƒJƒ‰[•ÏŠ·
+							//codeã«åŸºã¥ã„ãŸã‚«ãƒ©ãƒ¼å¤‰æ›
 							Color_img = cvCreateImage(cvGetSize(src_img), src_img->depth, src_img->nChannels);
 							cvCvtColor(src_img, Color_img, code);
 
-							//3Ch‚ÌLUTì¬
+							//3Chã®LUTä½œæˆ
 							lut    = cvCreateMat(256, 1, CV_8UC3);
 
 							lower[0] = ch1_lower;
@@ -511,32 +511,32 @@ void cv_ColorExtraction(IplImage* src_img, IplImage* dst_img, IplImage* mask_img
 										}
 									}
 								}
-								//LUT‚Ìİ’è
+								//LUTã®è¨­å®š
 								cvSet1D(lut, i, cvScalar(val[0], val[1], val[2]));
 							}
 
-							//3Ch‚²‚Æ‚ÌLUT•ÏŠ·iŠeƒ`ƒƒƒ“ƒlƒ‹‚²‚Æ‚É‚Q’l‰»ˆ—j
+							//3Chã”ã¨ã®LUTå¤‰æ›ï¼ˆå„ãƒãƒ£ãƒ³ãƒãƒ«ã”ã¨ã«ï¼’å€¤åŒ–å‡¦ç†ï¼‰
 							cvLUT(Color_img, Color_img, lut);
 							cvReleaseMat(&lut);
 
-							//Šeƒ`ƒƒƒ“ƒlƒ‹‚²‚Æ‚ÌIplImage‚ğŠm•Û‚·‚é
+							//å„ãƒãƒ£ãƒ³ãƒãƒ«ã”ã¨ã®IplImageã‚’ç¢ºä¿ã™ã‚‹
 							ch1_img = cvCreateImage(cvGetSize(Color_img), Color_img->depth, 1);
 							ch2_img = cvCreateImage(cvGetSize(Color_img), Color_img->depth, 1);
 							ch3_img = cvCreateImage(cvGetSize(Color_img), Color_img->depth, 1);
 
-							//ƒ`ƒƒƒ“ƒlƒ‹‚²‚Æ‚É“ñ’l‰»‚³‚ê‚½‰æ‘œ‚ğ‚»‚ê‚¼‚ê‚Ìƒ`ƒƒƒ“ƒlƒ‹‚É•ª‰ğ‚·‚é
+							//ãƒãƒ£ãƒ³ãƒãƒ«ã”ã¨ã«äºŒå€¤åŒ–ã•ã‚ŒãŸç”»åƒã‚’ãã‚Œãã‚Œã®ãƒãƒ£ãƒ³ãƒãƒ«ã«åˆ†è§£ã™ã‚‹
 							cvSplit(Color_img, ch1_img, ch2_img, ch3_img, NULL);
 
-							//3Ch‘S‚Ä‚ÌAND‚ğæ‚èAƒ}ƒXƒN‰æ‘œ‚ğì¬‚·‚éB
+							//3Chå…¨ã¦ã®ANDã‚’å–ã‚Šã€ãƒã‚¹ã‚¯ç”»åƒã‚’ä½œæˆã™ã‚‹ã€‚
 
 							cvAnd(ch1_img, ch2_img, dst_img);
 							cvAnd(dst_img, ch3_img, dst_img);
 
-							//“ü—Í‰æ‘œ(src_img)‚Ìƒ}ƒXƒN—Ìˆæ‚ğo—Í‰æ‘œ(dst_img)‚ÖƒRƒs[‚·‚é
+							//å…¥åŠ›ç”»åƒ(src_img)ã®ãƒã‚¹ã‚¯é ˜åŸŸã‚’å‡ºåŠ›ç”»åƒ(dst_img)ã¸ã‚³ãƒ”ãƒ¼ã™ã‚‹
 							cvZero(mask_img);
 							cvCopy(src_img, mask_img, dst_img);
 
-							//‰ğ•ú
+							//è§£æ”¾
 							cvReleaseImage(&Color_img);
 							cvReleaseImage(&ch1_img);
 							cvReleaseImage(&ch2_img);
@@ -545,13 +545,13 @@ void cv_ColorExtraction(IplImage* src_img, IplImage* dst_img, IplImage* mask_img
 }
 
 //
-//	ã‹L‚ÌŠÖ”‚ğ—p‚¢‚ÄŒvZ‚ğs‚¢AconvexHull“à‚Ì‰Ô‚ÌŠ„‡‚ğo‚µA•`‰æ‚às‚¤ŠÖ”
+//	ä¸Šè¨˜ã®é–¢æ•°ã‚’ç”¨ã„ã¦è¨ˆç®—ã‚’è¡Œã„ã€convexHullå†…ã®èŠ±ã®å‰²åˆã‚’å‡ºã—ã€æç”»ã‚‚è¡Œã†é–¢æ•°
 //
-//	ˆø”:
-//		para :	‰æ‘œ‚Ì\‘¢‘Ì
+//	å¼•æ•°:
+//		para :	ç”»åƒã®æ§‹é€ ä½“
 //
-//	–ß‚è’l:
-//		ratio :	convex“à‚É‚¨‚¯‚é‰Ô‚ÌŠ„‡
+//	æˆ»ã‚Šå€¤:
+//		ratio :	convexå†…ã«ãŠã‘ã‚‹èŠ±ã®å‰²åˆ
 //
 
 void Func(Para *para, AveColor *aveColor, Ratio *ratiobox) {
@@ -560,27 +560,27 @@ void Func(Para *para, AveColor *aveColor, Ratio *ratiobox) {
 	CvMemStorage* storage = cvCreateMemStorage(0);
 	CvSeq* find_contour = NULL;
 
-	//ûkA–c’£‚ğ‚µ‚Ä‰æ‘œ‚ÌƒmƒCƒY‚ğœ‹	
+	//åç¸®ã€è†¨å¼µã‚’ã—ã¦ç”»åƒã®ãƒã‚¤ã‚ºã‚’é™¤å»	
 	//interpolate(para->bit, para->bit, 2);
 
-	//	ƒ‰ƒxƒŠƒ“ƒO‚ğs‚¤ 
+	//	ãƒ©ãƒ™ãƒªãƒ³ã‚°ã‚’è¡Œã† 
 	Label *labeling = createLabeling();
 	exec( labeling, para->bit, para->label, true, 2000);
-	/* exec(ƒ‰ƒxƒŠƒ“ƒO•Ï”, “ü—Í‰æ‘œ, ƒ‰ƒxƒŠƒ“ƒOŒ‹‰Ê‚ğŠi”[‚·‚é•Ï”, 
-	—Ìˆæ‚ª‘å‚«‚³‚Ì~‡‚Éƒ\[ƒg‚³‚ê‚é‚©, Å¬‚Ì—ÌˆæƒTƒCƒY) */
+	/* exec(ãƒ©ãƒ™ãƒªãƒ³ã‚°å¤‰æ•°, å…¥åŠ›ç”»åƒ, ãƒ©ãƒ™ãƒªãƒ³ã‚°çµæœã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°, 
+	é ˜åŸŸãŒå¤§ãã•ã®é™é †ã«ã‚½ãƒ¼ãƒˆã•ã‚Œã‚‹ã‹, æœ€å°ã®é ˜åŸŸã‚µã‚¤ã‚º) */
 
 	if(getNumOfResultRegions(labeling) > 0 ) {
-		//Å¬‚Ì—ÌˆæƒTƒCƒY‚æ‚è‚à‘å‚«‚È—Ìˆæ‚ª‚ ‚Á‚½ê‡
-		int flowerarea;		//	‰Ô—Ìˆæ‚Ì–ÊÏ
-		int hullarea;		//	ConvexHull“à‚Ì–ÊÏ
-		int hullcount;		//	ConvexHull‚Ì’¸“_‚Ì”
-		CvPoint *flowerpoint;	//	‰Ô—Ìˆæ“à‚Ì“_‚ÌÀ•W”z—ñ
-		int *hull;			//	ConvexHull‚Ì’¸“_‚Ìflowerpoint‚É‚¨‚¯‚éindex”Ô†
-		CvMat pointMatrix;	//	‰Ô—Ìˆæ—ps—ñ
-		CvMat hullMatrix;	//	ConvexHull—ps—ñ
+		//æœ€å°ã®é ˜åŸŸã‚µã‚¤ã‚ºã‚ˆã‚Šã‚‚å¤§ããªé ˜åŸŸãŒã‚ã£ãŸå ´åˆ
+		int flowerarea;		//	èŠ±é ˜åŸŸã®é¢ç©
+		int hullarea;		//	ConvexHullå†…ã®é¢ç©
+		int hullcount;		//	ConvexHullã®é ‚ç‚¹ã®æ•°
+		CvPoint *flowerpoint;	//	èŠ±é ˜åŸŸå†…ã®ç‚¹ã®åº§æ¨™é…åˆ—
+		int *hull;			//	ConvexHullã®é ‚ç‚¹ã®flowerpointã«ãŠã‘ã‚‹indexç•ªå·
+		CvMat pointMatrix;	//	èŠ±é ˜åŸŸç”¨è¡Œåˆ—
+		CvMat hullMatrix;	//	ConvexHullç”¨è¡Œåˆ—
 
 
-		//—ÖŠs‚ğŒŸo‚·‚é
+		//è¼ªéƒ­ã‚’æ¤œå‡ºã™ã‚‹
 		int contour_num_color = cvFindContours(cvCloneImage(para->bit),
 			storage, 
 			&find_contour,
@@ -590,35 +590,35 @@ void Func(Para *para, AveColor *aveColor, Ratio *ratiobox) {
 			cvPoint(0,0)
 			);
 
-		//‰Ô—Ìˆæ‚ğ•`‰æE‹ß—’l‚ğ•â³
+		//èŠ±é ˜åŸŸã‚’æç”»ãƒ»è¿‘ä¼¼å€¤ã‚’è£œæ­£
 		drawMaxArea(para->bit, para->label, para->convex);
-		//ƒGƒ‰[‰ÓŠ‚ÌC³
+		//ã‚¨ãƒ©ãƒ¼ç®‡æ‰€ã®ä¿®æ­£
 		reviseMaxArea(para->bit, para->label, para->convex);
 
-		//bit-2’l‰æ‘œ‚ğk¬Eˆ³k
+		//bit-2å€¤ç”»åƒã‚’ç¸®å°ãƒ»åœ§ç¸®
 		interpolate(para->bit, para->bit, 2);
-		//—ÖŠs‚Ì•\¦
-		cvDrawContours(para->convex, find_contour, para->color, para->color, 1, 2, 8, cvPoint(0,0)); //‰©F‚Ìê‡(2”Ô–Ú‚Ìyellowg—p‚µ‚È‚¢)
+		//è¼ªéƒ­ã®è¡¨ç¤º
+		cvDrawContours(para->convex, find_contour, para->color, para->color, 1, 2, 8, cvPoint(0,0)); //é»„è‰²ã®å ´åˆ(2ç•ªç›®ã®yellowä½¿ç”¨ã—ãªã„)
 
-		//Å‘å—Ìˆæ‚ğ’Šo‚µA–ÊÏ‚ğƒJƒEƒ“ƒg
+		//æœ€å¤§é ˜åŸŸã‚’æŠ½å‡ºã—ã€é¢ç©ã‚’ã‚«ã‚¦ãƒ³ãƒˆ
 		flowerarea = pickupMaxArea(para->bit, para->label);
-		//\‘¢‘Ì‚É‰Ô‚Ì–ÊÏ’l‚ğ“o˜^
+		//æ§‹é€ ä½“ã«èŠ±ã®é¢ç©å€¤ã‚’ç™»éŒ²
 		para->area = flowerarea;
 
-		//ConvexHull‚ğ¶¬
+		//ConvexHullã‚’ç”Ÿæˆ
 		createConvexHull(para->bit,para->label, flowerarea, &flowerpoint, &hull, &pointMatrix, &hullMatrix);
 		hullcount = hullMatrix.cols;
 
-		//ConvexHull‚ğ•`‰æ
+		//ConvexHullã‚’æç”»
 		drawConvexHull(para->convex, flowerpoint, hull, hullcount);
 
-		//ConvexHull“à‚Ì–ÊÏ‚ğ‹‚ß‚é
+		//ConvexHullå†…ã®é¢ç©ã‚’æ±‚ã‚ã‚‹
 		hullarea = calcConvexHullArea(para->convex, flowerpoint, hull, hullcount);
 
-		//Å‘å—Ìˆæ‚ÌF‚Ì•½‹Ï’l‚ğ‹‚ß‚é \‘¢‘Ìƒ|ƒCƒ“ƒ^“n‚µ
+		//æœ€å¤§é ˜åŸŸã®è‰²ã®å¹³å‡å€¤ã‚’æ±‚ã‚ã‚‹ æ§‹é€ ä½“ãƒã‚¤ãƒ³ã‚¿æ¸¡ã—
 		averageColor(para, aveColor);
 
-		//dS‚ğ‹‚ßAŠe’¸“_‚Ü‚Åü‚ğˆø‚­
+		//é‡å¿ƒã‚’æ±‚ã‚ã€å„é ‚ç‚¹ã¾ã§ç·šã‚’å¼•ã
 		Gravity(para->bit, para->convex, flowerpoint, hull, hullcount, ratiobox);
 
 		//if(hullarea = 0) return ratio;
@@ -631,10 +631,10 @@ void Func(Para *para, AveColor *aveColor, Ratio *ratiobox) {
 }
 
 //
-//	F–ÊÏ‚ÌÅ‘å’l‚ÆF”Ô†‚ğ‹‚ß‚éŠÖ”
+//	è‰²é¢ç©ã®æœ€å¤§å€¤ã¨è‰²ç•ªå·ã‚’æ±‚ã‚ã‚‹é–¢æ•°
 //
-//	ˆø”:
-//		ŠeF‚Ì\‘¢‘Ì
+//	å¼•æ•°:
+//		å„è‰²ã®æ§‹é€ ä½“
 //
 
 int inputAreaData(Para *para0, Para *para1, Para *para2, Para *para3, Para *para4, Para *para5)
@@ -654,28 +654,28 @@ int inputAreaData(Para *para0, Para *para1, Para *para2, Para *para3, Para *para
 			m = i;
 	}
 
-	printf("–ÊÏ‚ÌÅ‘å’l‚Í%dA”Ô†‚Í%d\n", data[m], m);
+	printf("é¢ç©ã®æœ€å¤§å€¤ã¯%dã€ç•ªå·ã¯%d\n", data[m], m);
 
 	return m;
 }
 
 //
-//	ŠeƒEƒBƒ“ƒhƒE‚ğì¬‚µA‰æ‘œ•\¦‚Ì€”õ‚ğs‚Á‚Ä‚­‚ê‚éŠÖ”
+//	å„ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆã—ã€ç”»åƒè¡¨ç¤ºã®æº–å‚™ã‚’è¡Œã£ã¦ãã‚Œã‚‹é–¢æ•°
 //
-//	ˆø”:
-//		img	 :	Œ³‚Æ‚È‚é‰æ‘œ ƒLƒƒƒvƒ`ƒƒƒEƒBƒ“ƒhƒE—p‚É€”õ
-//		para :	‰æ‘œ‚Ì\‘¢‘Ì
+//	å¼•æ•°:
+//		img	 :	å…ƒã¨ãªã‚‹ç”»åƒ ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ç”¨ã«æº–å‚™
+//		para :	ç”»åƒã®æ§‹é€ ä½“
 //
 
 void Show(Para *para)
 {
 
-	//ˆø”‚Ì\‘¢‘Ì‚ÌƒEƒBƒ“ƒhƒE‚ğì¬‚µ
+	//å¼•æ•°ã®æ§‹é€ ä½“ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆã—
 	cvNamedWindow(para->bitname, CV_WINDOW_AUTOSIZE);
 	cvNamedWindow(para->convexname, CV_WINDOW_AUTOSIZE);
 	cvNamedWindow("Result-mask", CV_WINDOW_AUTOSIZE);
 
-	//•\¦
+	//è¡¨ç¤º
 	cvShowImage(para->bitname, para->bit);
 	cvShowImage(para->convexname, para->convex);
 	cvShowImage("Result-mask", para->mask);
@@ -683,23 +683,23 @@ void Show(Para *para)
 }
 
 //
-//	ŠeƒEƒBƒ“ƒhƒE‚ğ•Â‚¶Aƒƒ‚ƒŠ‚Ì‰ğ•ú‚à‚ğs‚Á‚Ä‚­‚ê‚éŠÖ”
+//	å„ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã€ãƒ¡ãƒ¢ãƒªã®è§£æ”¾ã‚‚ã‚’è¡Œã£ã¦ãã‚Œã‚‹é–¢æ•°
 //
-//	ˆø”:
-//		img	 :	Œ³‚Æ‚È‚é‰æ‘œ ƒLƒƒƒvƒ`ƒƒƒEƒBƒ“ƒhƒE—p‚É€”õ
-//		para :	‰æ‘œ‚Ì\‘¢‘Ì
+//	å¼•æ•°:
+//		img	 :	å…ƒã¨ãªã‚‹ç”»åƒ ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ç”¨ã«æº–å‚™
+//		para :	ç”»åƒã®æ§‹é€ ä½“
 //
 
 void Close(Para *para)
 {
 
-	//ƒƒ‚ƒŠ‚Ì‰ğ•ú
+	//ãƒ¡ãƒ¢ãƒªã®è§£æ”¾
 	cvReleaseImage(&para->bit);
 	cvReleaseImage(&para->convex);
 	cvReleaseImage(&para->label);
 	cvReleaseImage(&para->mask);
 
-	//ƒEƒBƒ“ƒhƒE‚ğ”jŠü
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ç ´æ£„
 	cvDestroyWindow(para->bitname);
 	cvDestroyWindow(para->convexname);
 	cvDestroyWindow("Result-mask");
@@ -709,7 +709,7 @@ void Close(Para *para)
 
 
 //
-//	mainŠÖ”
+//	mainé–¢æ•°
 //
 int main(int argc, char** argv) {
 	int i = 1, num, key;
@@ -719,30 +719,30 @@ int main(int argc, char** argv) {
 	errno_t err;
 
 
-	//ƒtƒ‹ƒI[ƒg‚Ìê‡ˆÈ‰º‚Ìs•K—v
+	//ãƒ•ãƒ«ã‚ªãƒ¼ãƒˆã®å ´åˆä»¥ä¸‹ã®è¡Œå¿…è¦
 	//for(i = 82; i < 100; i++) {
 
 	printf("-----------------------------------------------\n");
 	printf("version 01/24 13:56 i = %d \n", i);
 
 	err = fopen_s(&file, "C:/Users/TK/flower1227/odamaki/odamaki.txt", "a");
-	if(err != 0) printf("Œ‹‰ÊŠi”[ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ\n");
+	if(err != 0) printf("çµæœæ ¼ç´ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“\n");
 
-	//	‰æ‘œ‚ğ“Ç‚İ‚Ş
+	//	ç”»åƒã‚’èª­ã¿è¾¼ã‚€
 	sprintf_s(buf, 100, "%s%d%s","C:/Users/TK/flower1227/odamaki/odamaki (", i, ").jpg");
 	//sprintf_s(buf, 100, "%s","C:/Users/TK/flower1227/pencil.png");
 	img = cvLoadImage( buf, CV_LOAD_IMAGE_ANYDEPTH | CV_LOAD_IMAGE_ANYCOLOR );
 
 	if ( img == NULL){
-		//	‰æ‘œ‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡
-		printf( "‰æ‘œ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ\n" );
+		//	ç”»åƒãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸå ´åˆ
+		printf( "ç”»åƒãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“\n" );
 		return -1;
 	}
 
 	const int w = img->width;
 	const int h = img->height;	
 
-	//•½‹Ï’lŠi”[\‘¢‘Ì
+	//å¹³å‡å€¤æ ¼ç´æ§‹é€ ä½“
 	Ratio ratioMax;
 	Ratio ratioRed = {-1.0, 0.0};
 	Ratio ratioYellow = {-1.0, 0.0};
@@ -751,7 +751,7 @@ int main(int argc, char** argv) {
 	Ratio ratioMagenta = {-1.0, 0.0};
 	Ratio ratioWhite = {-1.0, 0.0};
 
-	//•½‹ÏƒJƒ‰[—p\‘¢‘Ì
+	//å¹³å‡ã‚«ãƒ©ãƒ¼ç”¨æ§‹é€ ä½“
 	AveColor aveMax;
 	AveColor aveRed = {0, 0, 0};
 	AveColor aveYellow = {0, 0, 0};
@@ -760,7 +760,7 @@ int main(int argc, char** argv) {
 	AveColor aveMagenta = {0, 0, 0};
 	AveColor aveWhite = {0, 0, 0};
 
-	//‰æ‘œ\‘¢‘Ì {bit, convex, label, mask, bit-window, convex-window, color, area}
+	//ç”»åƒæ§‹é€ ä½“ {bit, convex, label, mask, bit-window, convex-window, color, area}
 	Para paraMax;
 
 	Para paraRed = {
@@ -804,29 +804,29 @@ int main(int argc, char** argv) {
 	imgS = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 1);
 	imgV = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 1);
 
-	//bit‚Ì‡¬‰æ‘œ—p
+	//bitã®åˆæˆç”»åƒç”¨
 	IplImage* dst_img;
 	dst_img = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 1);
 
-	//‚È‚º‚©main‚É–³‚¢‚ÆƒGƒ‰[‚ª‹N‚«‚é‚Ì‚Å’u‚¢‚Æ‚­
+	//ãªãœã‹mainã«ç„¡ã„ã¨ã‚¨ãƒ©ãƒ¼ãŒèµ·ãã‚‹ã®ã§ç½®ã„ã¨ã
 	imgResult = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 1);
 
-	//HSV‚Ö•ÏŠ·
+	//HSVã¸å¤‰æ›
 	IplImage *imgHSV = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 3);
-	cvCvtColor(img, imgHSV, CV_BGR2HSV); //¦RGB‚Å‚Í‚È‚­BGR‚Æ‚¢‚¤‚±‚Æ‚É’ˆÓ
+	cvCvtColor(img, imgHSV, CV_BGR2HSV); //â€»RGBã§ã¯ãªãBGRã¨ã„ã†ã“ã¨ã«æ³¨æ„
 
-	// HSV‚ğ•ª‰ğ
+	// HSVã‚’åˆ†è§£
 	cvSplit(imgHSV, imgH, imgS, imgV, NULL);
 
-	//ƒEƒBƒ“ƒhƒE‚ğ€”õ‚µ‚Ä‰æ‘œ‚ğ•\¦@¦ƒtƒ‹ƒI[ƒg‰»‚Ìê‡•s—v
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’æº–å‚™ã—ã¦ç”»åƒã‚’è¡¨ç¤ºã€€â€»ãƒ•ãƒ«ã‚ªãƒ¼ãƒˆåŒ–ã®å ´åˆä¸è¦
 	cvNamedWindow("Capture", CV_WINDOW_AUTOSIZE);
 	cvShowImage("Capture", img);
 
-	//ƒtƒ‹ƒI[ƒg‚É‚·‚éê‡AˆÈ‰º‚Ì2sƒJƒbƒg
+	//ãƒ•ãƒ«ã‚ªãƒ¼ãƒˆã«ã™ã‚‹å ´åˆã€ä»¥ä¸‹ã®2è¡Œã‚«ãƒƒãƒˆ
 	key = cvWaitKey(0);
 	if(key == 'b'){
-		//‰Ô‰æ‘œ‚Ìê‡@ 76, 255, 127, 255@ƒyƒ“ƒVƒ‹‚Ìê‡ 80, 255, 0, 255
-		//cv_ColorExtraction(img, paraWhite.bit, mask_img, CV_BGR2HSV, 0, 255, 0, 76, 127, 255); //H S V‚Ì‡
+		//èŠ±ç”»åƒã®å ´åˆã€€ 76, 255, 127, 255ã€€ãƒšãƒ³ã‚·ãƒ«ã®å ´åˆ 80, 255, 0, 255
+		//cv_ColorExtraction(img, paraWhite.bit, mask_img, CV_BGR2HSV, 0, 255, 0, 76, 127, 255); //H S Vã®é †
 		cv_ColorExtraction(img, paraRed.bit,     paraRed.mask, CV_BGR2HSV, 165, 15 ,  76, 255, 127, 255);
 		cv_ColorExtraction(img, paraYellow.bit,  paraYellow.mask, CV_BGR2HSV, 15 , 40 ,  76, 255, 127, 255);
 		cv_ColorExtraction(img, paraCyan.bit,    paraCyan.mask, CV_BGR2HSV, 75 , 105, 76, 255, 127, 255);
@@ -842,7 +842,7 @@ int main(int argc, char** argv) {
 		Func(&paraWhite, &aveWhite, &ratioWhite);
 	}
 
-	//F‚Ì–ÊÏ‚ÌÅ‘å’l‚ğ‹‚ß‚é ¶‚©‚çF”Ô†0, 1, 2 ...
+	//è‰²ã®é¢ç©ã®æœ€å¤§å€¤ã‚’æ±‚ã‚ã‚‹ å·¦ã‹ã‚‰è‰²ç•ªå·0, 1, 2 ...
 	num = inputAreaData(&paraRed, &paraYellow, &paraCyan, &paraBlue, &paraMagenta, &paraWhite);
 
 	if(num == 0) {
@@ -859,26 +859,26 @@ int main(int argc, char** argv) {
 		paraMax = paraWhite; aveMax = aveWhite; ratioMax = ratioWhite;
 	}
 
-	//\‘¢‘Ì“à‚ğ•\¦
+	//æ§‹é€ ä½“å†…ã‚’è¡¨ç¤º
 	Show(&paraMax);
 	printf("Average H: %d(/180) S: %d(/100) V: %d(/100) \n", aveMax.h * 2, (int)aveMax.s * 100 / 255, (int)aveMax.v * 100 / 255);
 
-	//ƒf[ƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ì‘‚«‚İ
+	//ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®æ›¸ãè¾¼ã¿
 	if(ratioMax.c_ratio == -1.0){
 		printf("error!\n");
 	} else {
-		//ƒtƒ@ƒCƒ‹‚Ö‘‚«‚İ
+		//ãƒ•ã‚¡ã‚¤ãƒ«ã¸æ›¸ãè¾¼ã¿
 		fprintf(file,"%d %f %d %d %d \n", 0, ratioMax.c_ratio , aveMax.h * 2, (int)aveMax.s * 100 / 255, (int)aveMax.v * 100 / 255);
 		printf("c_ratio = %lf\n", ratioMax.c_ratio);
 		printf("d_ratio = %1.3f\n", ratioMax.d_ratio);
 	}	
-	//ratio‚ğÄ‚Ñ-1‚É‰Šú‰»
+	//ratioã‚’å†ã³-1ã«åˆæœŸåŒ–
 	ratioMax.c_ratio = -1.0;
 
-	//ƒtƒ‹ƒI[ƒg‚Ås‚¤ê‡AˆÈ‰º‚Ìs‚àƒJƒbƒg@‰æ‘œ•ÏŠ·Œã‚ÌŠm”F‚Ì‚½‚ßg—p‚µ‚Ä‚¢‚½
+	//ãƒ•ãƒ«ã‚ªãƒ¼ãƒˆã§è¡Œã†å ´åˆã€ä»¥ä¸‹ã®è¡Œã‚‚ã‚«ãƒƒãƒˆã€€ç”»åƒå¤‰æ›å¾Œã®ç¢ºèªã®ãŸã‚ä½¿ç”¨ã—ã¦ã„ãŸ
 	cvWaitKey(0);	
 
-	//‰ğ•úŒR
+	//è§£æ”¾è»
 	cvReleaseImage(&img);
 	cvDestroyWindow("Capture");
 
@@ -887,11 +887,11 @@ int main(int argc, char** argv) {
 	cvReleaseImage(&imgS);
 	cvReleaseImage(&imgV);
 
-	//\‘¢‘Ì“à‚à•Ğ•t‚¯‚é
+	//æ§‹é€ ä½“å†…ã‚‚ç‰‡ä»˜ã‘ã‚‹
 	Close(&paraMax);
 
 	fclose(file);
-	//for•¶‚ÌƒPƒc
+	//foræ–‡ã®ã‚±ãƒ„
 	//}
 
 	return 0;

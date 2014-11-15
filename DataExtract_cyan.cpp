@@ -1,3 +1,6 @@
+//シアンを検出するプログラム
+/* 構造体操作の詳細は　http://homepage3.nifty.com/mmgames/c_guide/16-02.html　*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <highgui.h>
@@ -5,6 +8,7 @@
 #include <cxcore.h>
 #include "Labeling.h"
 #include "LabelingW.h"
+/* Labeling.hについて… http://oshiro.bpe.es.osaka-u.ac.jp/people/staff/imura/products/labeling */
 
 #ifdef _DEBUG
 //Debugモードの場合
@@ -44,11 +48,9 @@ typedef struct{
 	IplImage *bit;
 	IplImage *convex;
 	IplImage *label;
-	IplImage *mask;
 	char bitname[20];
 	char convexname[20];
 	CvScalar color;
-	int area;
 }Para;
 
 //
@@ -116,17 +118,18 @@ void drawMaxArea(IplImage *bitImage, IplImage *label, IplImage *convexHullImage 
 						cvSetReal2D(label, y, x, 1);			//ラベルを付加する(1が一番大きい画像)
 						cvSetReal2D(bitImage, y, x, 255);		//bitImageに255を付加して白を描く
 
-						//y方向を一旦お休み　復活させるときは少し近似値を下げる？
-						//} else if(cvGetReal2D( label, y-1, x ) == 1 && abs(d_h_y) < 2 && abs(d_s_y) < 6.75 && abs(d_v_y) < 12.5) {
-						//	cvSet2D( convexHullImage, y, x, CV_RGB( 0, 255, 0 ));		//convexを緑で描画
-						//	cvSetReal2D(label, y, x, 1);			//ラベルを付加する(1が一番大きい画像)
-						//	cvSetReal2D(bitImage, y, x, 255);		//bitImageに255を付加して白を描く
+					//y方向を一旦お休み　復活させるときは少し近似値を下げる？
+					//} else if(cvGetReal2D( label, y-1, x ) == 1 && abs(d_h_y) < 2 && abs(d_s_y) < 6.75 && abs(d_v_y) < 12.5) {
+					//	cvSet2D( convexHullImage, y, x, CV_RGB( 0, 255, 0 ));		//convexを緑で描画
+					//	cvSetReal2D(label, y, x, 1);			//ラベルを付加する(1が一番大きい画像)
+					//	cvSetReal2D(bitImage, y, x, 255);		//bitImageに255を付加して白を描く
 
 					//} else if(cvGetReal2D( label, y, x-1 ) == 1 && s <= 51 && abs(d_s_x) <= 13 && abs(d_v_x) <= 26 ) {
 					//	cvSet2D( convexHullImage, y, x, CV_RGB( 0, 0, 255 ));		//convexを青で描画
 					//	cvSetReal2D(label, y, x, 1);			//ラベルを付加する(1が一番大きい画像)
 					//	cvSetReal2D(bitImage, y, x, 255);		//bitImageに255を付加して白を描く
 					}
+
 				}
 			}
 		}
@@ -265,7 +268,7 @@ void createConvexHull(IplImage *bitImage, IplImage *label,int flowerarea, CvPoin
 									  ( *flowerpoint )[i].y = y;
 									  i++;
 								  }
-							  } 
+								} 
 						  }
 
 						  //	ConvexHullを生成する
@@ -331,7 +334,7 @@ int calcConvexHullArea( IplImage *convexHullImage, CvPoint *flowerpoint, int *hu
 //2点間の距離を求める
 int Distance(CvPoint pt1, CvPoint pt2){
 	int dis;
-
+	
 	dis = int(sqrt(pow(pt2.x - pt1.x, 2.0) + pow(pt2.y - pt1.y, 2.0)));
 
 	return dis;
@@ -422,7 +425,7 @@ void averageColor(Para *para, AveColor *aveColor) {
 	aveColor->h = h_sum/in;	//後ろの数字は正規化
 	aveColor->s = s_sum/in;
 	aveColor->v = v_sum/in;
-	//printf("Average H: %d(/180) S: %d(/100) V: %d(/100) \n", aveColor->h * 2, (int)aveColor->s * 100 / 255, (int)aveColor->v * 100 / 255);
+	printf("Average H: %d(/180) S: %d(/100) V: %d(/100) \n", aveColor->h * 2, (int)aveColor->s * 100 / 255, (int)aveColor->v * 100 / 255);
 }
 
 //
@@ -459,84 +462,84 @@ void interpolate( IplImage *skinImage, IplImage *temp, int num) {
 //　　　　　　：lower >  upperの場合、upper以下lower以上の範囲を抽出します。
 //---------------------------------------------------------------
 void cv_ColorExtraction(IplImage* src_img, IplImage* dst_img, IplImage* mask_img,
-						int code,
-						int ch1_lower, int ch1_upper,
-						int ch2_lower, int ch2_upper,
-						int ch3_lower, int ch3_upper
-						){
+                            int code,
+                            int ch1_lower, int ch1_upper,
+                            int ch2_lower, int ch2_upper,
+                            int ch3_lower, int ch3_upper
+                        ){
 
-							int i, k;   
+    int i, k;   
 
-							IplImage *Color_img;
-							IplImage *ch1_img, *ch2_img, *ch3_img;
+    IplImage *Color_img;
+    IplImage *ch1_img, *ch2_img, *ch3_img;
 
-							int lower[3];
-							int upper[3];
-							int val[3];
+    int lower[3];
+    int upper[3];
+    int val[3];
 
-							CvMat *lut;   
+    CvMat *lut;   
 
-							//codeに基づいたカラー変換
-							Color_img = cvCreateImage(cvGetSize(src_img), src_img->depth, src_img->nChannels);
-							cvCvtColor(src_img, Color_img, code);
+    //codeに基づいたカラー変換
+    Color_img = cvCreateImage(cvGetSize(src_img), src_img->depth, src_img->nChannels);
+    cvCvtColor(src_img, Color_img, code);
+       
+    //3ChのLUT作成
+    lut    = cvCreateMat(256, 1, CV_8UC3);
 
-							//3ChのLUT作成
-							lut    = cvCreateMat(256, 1, CV_8UC3);
+    lower[0] = ch1_lower;
+    lower[1] = ch2_lower;
+    lower[2] = ch3_lower;
 
-							lower[0] = ch1_lower;
-							lower[1] = ch2_lower;
-							lower[2] = ch3_lower;
+    upper[0] = ch1_upper;
+    upper[1] = ch2_upper;
+    upper[2] = ch3_upper;
 
-							upper[0] = ch1_upper;
-							upper[1] = ch2_upper;
-							upper[2] = ch3_upper;
+    for (i = 0; i < 256; i++){
+        for (k = 0; k < 3; k++){
+            if (lower[k] <= upper[k]){
+                if ((lower[k] <= i) && (i <= upper[k])){
+                    val[k] = 255;
+                }else{
+                    val[k] = 0;
+                }
+            }else{
+                if ((i <= upper[k]) || (lower[k] <= i)){
+                    val[k] = 255;
+                }else{
+                    val[k] = 0;
+                }
+            }
+        }
+        //LUTの設定
+        cvSet1D(lut, i, cvScalar(val[0], val[1], val[2]));
+    }
 
-							for (i = 0; i < 256; i++){
-								for (k = 0; k < 3; k++){
-									if (lower[k] <= upper[k]){
-										if ((lower[k] <= i) && (i <= upper[k])){
-											val[k] = 255;
-										}else{
-											val[k] = 0;
-										}
-									}else{
-										if ((i <= upper[k]) || (lower[k] <= i)){
-											val[k] = 255;
-										}else{
-											val[k] = 0;
-										}
-									}
-								}
-								//LUTの設定
-								cvSet1D(lut, i, cvScalar(val[0], val[1], val[2]));
-							}
+    //3ChごとのLUT変換（各チャンネルごとに２値化処理）
+    cvLUT(Color_img, Color_img, lut);
+    cvReleaseMat(&lut);
 
-							//3ChごとのLUT変換（各チャンネルごとに２値化処理）
-							cvLUT(Color_img, Color_img, lut);
-							cvReleaseMat(&lut);
+    //各チャンネルごとのIplImageを確保する
+    ch1_img = cvCreateImage(cvGetSize(Color_img), Color_img->depth, 1);
+    ch2_img = cvCreateImage(cvGetSize(Color_img), Color_img->depth, 1);
+    ch3_img = cvCreateImage(cvGetSize(Color_img), Color_img->depth, 1);
 
-							//各チャンネルごとのIplImageを確保する
-							ch1_img = cvCreateImage(cvGetSize(Color_img), Color_img->depth, 1);
-							ch2_img = cvCreateImage(cvGetSize(Color_img), Color_img->depth, 1);
-							ch3_img = cvCreateImage(cvGetSize(Color_img), Color_img->depth, 1);
+    //チャンネルごとに二値化された画像をそれぞれのチャンネルに分解する
+    cvSplit(Color_img, ch1_img, ch2_img, ch3_img, NULL);
 
-							//チャンネルごとに二値化された画像をそれぞれのチャンネルに分解する
-							cvSplit(Color_img, ch1_img, ch2_img, ch3_img, NULL);
+    //3Ch全てのANDを取り、マスク画像を作成する。
 
-							//3Ch全てのANDを取り、マスク画像を作成する。
+    cvAnd(ch1_img, ch2_img, dst_img);
+    cvAnd(dst_img, ch3_img, dst_img);
 
-							cvAnd(ch1_img, ch2_img, dst_img);
-							cvAnd(dst_img, ch3_img, dst_img);
+    //入力画像(src_img)のマスク領域を出力画像(dst_img)へコピーする
+    cvZero(mask_img);
+    cvCopy(src_img, mask_img, dst_img);
 
-							//入力画像(src_img)のマスク領域を出力画像(dst_img)へコピーする
-							cvZero(mask_img);
-							cvCopy(src_img, mask_img, dst_img);
-
-							//解放
-							cvReleaseImage(&Color_img);
-							cvReleaseImage(&ch1_img);
-							cvReleaseImage(&ch2_img);
-							cvReleaseImage(&ch3_img);
+    //解放
+    cvReleaseImage(&Color_img);
+    cvReleaseImage(&ch1_img);
+    cvReleaseImage(&ch2_img);
+    cvReleaseImage(&ch3_img);
 
 }
 
@@ -586,6 +589,8 @@ void Func(Para *para, AveColor *aveColor, Ratio *ratiobox) {
 			cvPoint(0,0)
 			);
 
+		//printf("check-2 \n");
+
 		//花領域を描画・近似値を補正
 		drawMaxArea(para->bit, para->label, para->convex);
 		//エラー箇所の修正
@@ -594,65 +599,50 @@ void Func(Para *para, AveColor *aveColor, Ratio *ratiobox) {
 		//bit-2値画像を縮小・圧縮
 		interpolate(para->bit, para->bit, 2);
 		//輪郭の表示
-		cvDrawContours(para->convex, find_contour, para->color, para->color, 1, 2, 8, cvPoint(0,0)); //黄色の場合(2番目のyellow使用しない)
+		cvDrawContours(para->convex, find_contour, para->color, para->color, 1, 2, 8, cvPoint(0,0)); //黄色の場合(2番目のyellow使用しない)]
+
+		//printf("check-3 \n");
 
 		//最大領域を抽出し、面積をカウント
 		flowerarea = pickupMaxArea(para->bit, para->label);
-		//構造体に花の面積値を登録
-		para->area = flowerarea;
+
+		//printf("check-4 flowerarea = %d\n", flowerarea);
 
 		//ConvexHullを生成
 		createConvexHull(para->bit,para->label, flowerarea, &flowerpoint, &hull, &pointMatrix, &hullMatrix);
 		hullcount = hullMatrix.cols;
 
+		//printf("check-5 \n");
+
 		//ConvexHullを描画
 		drawConvexHull(para->convex, flowerpoint, hull, hullcount);
+
+		//printf("check-6 \n");
 
 		//ConvexHull内の面積を求める
 		hullarea = calcConvexHullArea(para->convex, flowerpoint, hull, hullcount);
 
+		//printf("check-7 \n");
+
 		//最大領域の色の平均値を求める 構造体ポインタ渡し
 		averageColor(para, aveColor);
+
+		//printf("check-8 \n");
 
 		//重心を求め、各頂点まで線を引く
 		Gravity(para->bit, para->convex, flowerpoint, hull, hullcount, ratiobox);
 
+		//printf("check-9 \n");
+
 		//if(hullarea = 0) return ratio;
 		ratiobox->c_ratio = flowerarea / ( double )hullarea;
+
+		//printf("check-10 \n");
 
 	}
 
 	releaseLabeling(labeling);
 	cvReleaseMemStorage(&storage);
-}
-
-//
-//	色面積の最大値と色番号を求める関数
-//
-//	引数:
-//		各色の構造体
-//
-
-int inputAreaData(Para *para0, Para *para1, Para *para2, Para *para3, Para *para4, Para *para5)
-{
-	int i, m;
-	int data[10];
-
-	data[0] = para0->area;
-	data[1] = para1->area;
-	data[2] = para2->area;
-	data[3] = para3->area;
-	data[4] = para4->area;
-	data[5] = para5->area;
-
-	for(i = 1, m = 0; i < 6; i++){
-		if(data[m] < data[i])
-			m = i;
-	}
-
-	printf("面積の最大値は%d、番号は%d\n", data[m], m);
-
-	return m;
 }
 
 //
@@ -663,18 +653,15 @@ int inputAreaData(Para *para0, Para *para1, Para *para2, Para *para3, Para *para
 //		para :	画像の構造体
 //
 
-void Show(Para *para)
-{
+void Show(Para *para){
 
 	//引数の構造体のウィンドウを作成し
 	cvNamedWindow(para->bitname, CV_WINDOW_AUTOSIZE);
 	cvNamedWindow(para->convexname, CV_WINDOW_AUTOSIZE);
-	cvNamedWindow("Result-mask", CV_WINDOW_AUTOSIZE);
 
 	//表示
 	cvShowImage(para->bitname, para->bit);
 	cvShowImage(para->convexname, para->convex);
-	cvShowImage("Result-mask", para->mask);
 
 }
 
@@ -686,19 +673,16 @@ void Show(Para *para)
 //		para :	画像の構造体
 //
 
-void Close(Para *para)
-{
+void Close(Para *para){
 
 	//メモリの解放
 	cvReleaseImage(&para->bit);
 	cvReleaseImage(&para->convex);
-	cvReleaseImage(&para->label);
-	cvReleaseImage(&para->mask);
+    cvReleaseImage(&para->label);
 
 	//ウィンドウを破棄
 	cvDestroyWindow(para->bitname);
 	cvDestroyWindow(para->convexname);
-	cvDestroyWindow("Result-mask");
 
 }
 
@@ -708,7 +692,8 @@ void Close(Para *para)
 //	main関数
 //
 int main(int argc, char** argv) {
-	int i = 14, num, key;
+	int i = 1, key;
+	int cls = 1;
 	CvCapture *capture = NULL;
 	char buf[100];
 	FILE *file;
@@ -716,16 +701,16 @@ int main(int argc, char** argv) {
 
 
 	//フルオートの場合以下の行必要
-	//for(i = 1; i < 43; i++) {
-
+	for(i = 1; i < 100; i++) {
+	
 	printf("-----------------------------------------------\n");
-	printf("version 01/24 13:56 i = %d \n", i);
+	printf("version 01/10  i = %d \n", i);
 
-	err = fopen_s(&file, "C:/Users/TK/flower1227/data/dat0124.txt", "a");
+	err = fopen_s(&file, "C:/Users/TK/flower1227/odamaki.txt", "a");
 	if(err != 0) printf("結果格納テキストファイルが見つかりません\n");
 
 	//	画像を読み込む
-	sprintf_s(buf, 100, "%s%d%s","C:/Users/TK/flower1227/atsumori/atsumori (", i, ").jpg");
+	sprintf_s(buf, 100, "%s%d%s","C:/Users/TK/flower1227/odamaki/sample (", i, ").jpg");
 	//sprintf_s(buf, 100, "%s","C:/Users/TK/flower1227/pencil.png");
 	img = cvLoadImage( buf, CV_LOAD_IMAGE_ANYDEPTH | CV_LOAD_IMAGE_ANYCOLOR );
 
@@ -739,70 +724,26 @@ int main(int argc, char** argv) {
 	const int h = img->height;	
 
 	//平均値格納構造体
-	Ratio ratioMax;
-	Ratio ratioRed = {-1.0, 0.0};
-	Ratio ratioYellow = {-1.0, 0.0};
-	Ratio ratioCyan = {-1.0, 0.0};
-	Ratio ratioBlue = {-1.0, 0.0};
-	Ratio ratioMagenta = {-1.0, 0.0};
-	Ratio ratioWhite = {-1.0, 0.0};
+	Ratio ratiobox = {-1.0, 0.0};
 
-	//平均カラー用構造体
-	AveColor aveMax;
-	AveColor aveRed = {0, 0, 0};
-	AveColor aveYellow = {0, 0, 0};
-	AveColor aveCyan = {0, 0, 0};
-	AveColor aveBlue = {0, 0, 0};
-	AveColor aveMagenta = {0, 0, 0};
+	//白色の平均カラー用構造体
 	AveColor aveWhite = {0, 0, 0};
-
-	//画像構造体 {bit, convex, label, mask, bit-window, convex-window, color, area}
-	Para paraMax;
-
-	Para paraRed = {
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,1), cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,3 ),
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_16S,1), cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 3),
-		"Result-bit","Result-convex", CV_RGB(255, 0, 0), 0
-	};
-
-	Para paraYellow = {
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,1), cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,3 ),
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_16S,1), cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 3),
-		"Result-bit","Result-convex", CV_RGB(255, 255, 0), 0
-	};
-
-	Para paraCyan = {
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,1), cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,3 ),
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_16S,1), cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 3),
-		"Result-bit","Result-convex", CV_RGB(0, 255, 255), 0
-	};
-
-	Para paraBlue = {
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,1),  cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,3 ),
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_16S,1), cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 3),
-		"Result-bit","Result-convex", CV_RGB(0, 0, 255), 0
-	};
-
-	Para paraMagenta = {
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,1), cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,3 ),
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_16S,1), cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 3),
-		"Result-bit","Result-convex", CV_RGB(255, 0, 255), 0
-	};
-
+	//白色の画像構造体 {bit, convex, label, bit-window, convex-window, color}
 	Para paraWhite = {
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,1), cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,3 ),
-		cvCreateImage( cvSize(w, h),IPL_DEPTH_16S,1), cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 3),
-		"Result-bit","Result-convex", CV_RGB(0, 0, 0), 0
+		cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,1), 
+		cvCreateImage( cvSize(w, h),IPL_DEPTH_8U,3 ),
+		cvCreateImage( cvSize(w, h),IPL_DEPTH_16S,1),
+		"Result-bit","Result-convex", CV_RGB(0, 255, 255)
 	};
 
-	//HSV
+	//RGB
 	imgH = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 1);
 	imgS = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 1);
 	imgV = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 1);
 
-	//bitの合成画像用
-	IplImage* dst_img;
-	dst_img = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 1);
+	//マスク画像用(期間限定設置)
+	IplImage* mask_img;
+    mask_img = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 3);
 
 	//なぜかmainに無いとエラーが起きるので置いとく
 	imgResult = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 1);
@@ -821,55 +762,27 @@ int main(int argc, char** argv) {
 	//フルオートにする場合、以下の2行カット
 	key = cvWaitKey(0);
 	if(key == 'b'){
-		//花画像の場合　 76, 255, 127, 255　ペンシルの場合 80, 255, 0, 255
-		//cv_ColorExtraction(img, paraWhite.bit, mask_img, CV_BGR2HSV, 0, 255, 0, 76, 127, 255); //H S Vの順
-		cv_ColorExtraction(img, paraRed.bit,     paraRed.mask, CV_BGR2HSV, 165, 15 ,  76, 255, 127, 255);
-		cv_ColorExtraction(img, paraYellow.bit,  paraYellow.mask, CV_BGR2HSV, 15 , 40 ,  76, 255, 127, 255);
-		cv_ColorExtraction(img, paraCyan.bit,    paraCyan.mask, CV_BGR2HSV, 75 , 105, 76, 255, 127, 255);
-		cv_ColorExtraction(img, paraBlue.bit,    paraBlue.mask, CV_BGR2HSV, 105, 135, 76, 255, 127, 255);
-		cv_ColorExtraction(img, paraMagenta.bit, paraMagenta.mask, CV_BGR2HSV, 135, 165, 76, 255, 127, 255);
-		cv_ColorExtraction(img, paraWhite.bit,   paraWhite.mask, CV_BGR2HSV, 0  , 255, 0,  128,  127, 255);
+		cv_ColorExtraction(img, paraWhite.bit, mask_img, CV_BGR2HSV, 75 , 105, 76, 255, 127, 255); //H S Vの順
+		//cv_ColorExtraction(img, paraWhite.bit, mask_img, CV_BGR2HSV, 15, 40, 80, 255, 0, 255); //H S Vの順
 
-		Func(&paraRed, &aveRed, &ratioRed);
-		Func(&paraYellow, &aveYellow, &ratioYellow);
-		Func(&paraCyan, &aveCyan, &ratioCyan);
-		Func(&paraBlue, &aveBlue, &ratioBlue);
-		Func(&paraMagenta, &aveMagenta, &ratioMagenta);
-		Func(&paraWhite, &aveWhite, &ratioWhite);
+		Func(&paraWhite, &aveWhite, &ratiobox);
 	}
 
-	//色の面積の最大値を求める 左から色番号0, 1, 2 ...
-	num = inputAreaData(&paraRed, &paraYellow, &paraCyan, &paraBlue, &paraMagenta, &paraWhite);
-
-	if(num == 0) {
-		paraMax = paraRed; aveMax = aveRed; ratioMax = ratioRed;
-	} else if(num == 1) {
-		paraMax = paraYellow; aveMax = aveYellow; ratioMax = ratioYellow;
-	} else if(num == 2) {
-		paraMax = paraCyan; aveMax = aveCyan; ratioMax = ratioCyan;
-	} else if(num == 3) {
-		paraMax = paraBlue; aveMax = aveBlue; ratioMax = ratioBlue;
-	} else if(num == 4) {
-		paraMax = paraMagenta; aveMax = aveMagenta; ratioMax = ratioMagenta;
-	} else if(num == 5) {
-		paraMax = paraWhite; aveMax = aveWhite; ratioMax = ratioWhite;
-	}
-
+	//ウィンドウを準備して画像を表示　※フルオート化の場合不要
+	cvShowImage("Result-mask", mask_img);
 	//構造体内を表示
-	Show(&paraMax);
-	printf("Average H: %d(/180) S: %d(/100) V: %d(/100) \n", aveMax.h * 2, (int)aveMax.s * 100 / 255, (int)aveMax.v * 100 / 255);
+	Show(&paraWhite);
 
 	//データファイルへの書き込み
-	if(ratioMax.c_ratio == -1.0){
+	if(ratiobox.c_ratio == -1.0){
 		printf("error!\n");
 	} else {
-		//ファイルへ書き込み
-		fprintf(file,"%d %f %d %d %d \n", 0, ratioMax.c_ratio , aveMax.h * 2, (int)aveMax.s * 100 / 255, (int)aveMax.v * 100 / 255);
-		printf("c_ratio = %lf\n", ratioMax.c_ratio);
-		printf("d_ratio = %1.3f\n", ratioMax.d_ratio);
+		fprintf(file,"%d %f %d %d %d \n", i, ratiobox.c_ratio, aveWhite.h * 2, (int)aveWhite.s * 100 / 255, (int)aveWhite.v * 100 / 255);
+		printf("c_ratio = %lf\n", ratiobox.c_ratio);
+		printf("d_ratio = %1.3f\n", ratiobox.d_ratio);
 	}	
 	//ratioを再び-1に初期化
-	ratioMax.c_ratio = -1.0;
+	ratiobox.c_ratio = -1.0;
 
 	//フルオートで行う場合、以下の行もカット　画像変換後の確認のため使用していた
 	cvWaitKey(0);	
@@ -877,6 +790,8 @@ int main(int argc, char** argv) {
 	//解放軍
 	cvReleaseImage(&img);
 	cvDestroyWindow("Capture");
+	cvReleaseImage(&mask_img);
+	cvDestroyWindow("Result-mask");
 
 	cvReleaseImage(&imgHSV);
 	cvReleaseImage(&imgH);
@@ -884,11 +799,11 @@ int main(int argc, char** argv) {
 	cvReleaseImage(&imgV);
 
 	//構造体内も片付ける
-	Close(&paraMax);
+	Close(&paraWhite);
 
 	fclose(file);
 	//for文のケツ
-	//}
+	}
 
 	return 0;
 }
